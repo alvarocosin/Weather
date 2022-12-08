@@ -26,11 +26,11 @@ def get_data(loc):
     return weatherData
 
 def degree_conversion(windDegrees):
-    if(int(windDegrees) > 320):
+    if(int(windDegrees) > 270):
         return "NE"
-    elif(int(windDegrees) > 220):
+    elif(int(windDegrees) > 180):
         return "NW"
-    elif(int(windDegrees) > 140):
+    elif(int(windDegrees) > 90):
         return "SE"
     else:
         return "SW" 
@@ -46,14 +46,13 @@ def print_data(weather_data, location):
     temp_max = weather_data["main"]["temp_max"]
     windDirection = degree_conversion(windDegrees)
 
-
     print("===============================================")
     print('Weather in %s:' % location)
-    print('>%s°C (Feels like %s°C)' % (temp, feelslike))
-    print('>Min: %s°C | Max: %s°C' % (temp_min, temp_max))
-    print('>Wind: %s km/h | Direction: %s' % (windSpeed, windDirection))
-    print('>Humidity: ' + str(humidity) + '%')
-    print('>Sky description: ' + description)
+    print('  > %s°C (Feels like %s°C)' % (temp, feelslike))
+    print('  > Min: %s°C | Max: %s°C' % (temp_min, temp_max))
+    print('  > Wind: %s km/h | Direction: %s' % (windSpeed, windDirection))
+    print('  > Humidity: ' + str(humidity) + '%')
+    print('  > Sky description: ' + description)
     print("===============================================")
 
 def main():
