@@ -3,16 +3,20 @@
 import json, requests, sys
 
 def read_location():
-    frequent_locations = ['Zaragoza', 'Valencia', 'Madrid', 'London', 'Select new location']
-
+    with open('cities.txt') as f:
+        cities = f.readlines()
+    f.close()
+    cities.append('Select new location')
+    for i in range(len(cities)):
+        cities[i] = cities[i].strip()
     i = 0
     print('What is your location?\n\nFrequent locations: ')
-    for loc in frequent_locations:  
+    for loc in cities:  
         print('(%i). %s' % (i, loc))
         i += 1
 
     location_n = input('\nSelect location number\n')
-    location = frequent_locations[int(location_n)]
+    location = cities[int(location_n)]
     if(location == 'Select new location'):
         location = input('Introduce new location:\n')
         return location
@@ -27,13 +31,13 @@ def get_data(loc):
 
 def degree_conversion(windDegrees):
     if(int(windDegrees) > 270):
-        return "NE"
+        return "↙"
     elif(int(windDegrees) > 180):
-        return "NW"
+        return "↘"
     elif(int(windDegrees) > 90):
-        return "SE"
+        return "↖"
     else:
-        return "SW" 
+        return "↗" 
 
 def print_data(weather_data, location):
     temp = weather_data["main"]["temp"]
@@ -46,14 +50,14 @@ def print_data(weather_data, location):
     temp_max = weather_data["main"]["temp_max"]
     windDirection = degree_conversion(windDegrees)
 
-    print("===============================================")
+    print('\033[1m' + "===============================================")
     print('Weather in %s:' % location)
     print('  > %s°C (Feels like %s°C)' % (temp, feelslike))
-    print('  > Min: %s°C | Max: %s°C' % (temp_min, temp_max))
-    print('  > Wind: %s km/h | Direction: %s' % (windSpeed, windDirection))
+    print('  > ↓ %s°C    ↑ %s°C' % (temp_min, temp_max))
+    print('  > Wind: %s km/h Direction: %s' % (windSpeed, windDirection))
     print('  > Humidity: ' + str(humidity) + '%')
     print('  > Sky description: ' + description)
-    print("===============================================")
+    print("===============================================" + '\033[0m')
 
 def main():
     location = read_location()
